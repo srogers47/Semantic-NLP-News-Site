@@ -1,0 +1,50 @@
+version: '3.9'
+#NOTE: LOCAL DEV ENV ONLY!!!
+
+services:
+
+  # Redis 
+  redis:
+    image: redis:alpine
+    container_name: redis
+  # Database
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environmenmt:
+      - POSTGRES_DB=postgres # CHANGE NAME IN SOURCE NEWS\
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres 
+    container_name: postgres_db   
+
+  # Django Application
+  app:
+    build: .
+    volumes:
+      - .:/django
+    ports:
+      - 8000:8000
+    image: app:django
+    container_name: django_app
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - db 
+      
+  # Celery
+  celery:
+    restart: always
+    build:
+      context: .
+    command: celery -A core worker -l DEBUG
+    volumes:
+      - .:/django
+    container_name: celery
+    depends_on:
+      - db
+      - redis
+      - app
+
+ 
+ #TODO SEGMENT COMPOSE INTO DIFFERENT DIRS ORGANIZE WITH ENTRY POINTS \
+ #cv ''run with --init flag for siganl forwarding 

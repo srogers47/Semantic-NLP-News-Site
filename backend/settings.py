@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+    'chat',
     'graphene_django',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
     'graphql_auth',
@@ -72,12 +75,14 @@ TEMPLATES = [
     },
 ]
 
+# Not using this but no need to comment out. 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# TODO Integrate postgres or mysql depending on db used for news sourcing.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -147,7 +152,25 @@ GRAPHQL_JWT = {
         'JWT_LONG_RUNNING_REFRESH_TOKEN': True, # 
         }
 
-
+# ASGI and Channels
+ASGI_APPLICATION = "backend.routing.application"
+CHANNEL_LAYERS = {
+        'defualt': {
+            'BACKEND': 'channels_redis.backend.RedisChannelLayer',
+            'CONFIG': {
+               # 'hosts': [os.environ['REDIS_URL']], #TODO NEED TO ADD REDIS_URL IN CELERY/TASKS.py
+                },
+            },
+        }
+CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            #'LOCATION': os.environ['REDIS_URL'],
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient'
+                },
+            },
+        }
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # NOTE: FOR LOCAL DEV: Will send email to console (Default) TODO: Set up with gmail in production. 
