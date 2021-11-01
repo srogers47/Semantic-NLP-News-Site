@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-o9&qvi9-!#bd1l!pckz&f!yd1#za5fc3=u)2rqerzf6(#)0v49
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# TODO Integrate postgres or mysql depending on db used for news sourcing.
+# TODO Integrate postgres db used for news sourcing.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -131,6 +131,8 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'users.ExtendUser' # Extending default user model
 
+# Graphql and Auth 
+
 GRAPHENE = {
         'SCHEMA': 'users.schema.schema', # Link to schema
         'MIDDLEWARE': [
@@ -162,6 +164,7 @@ CHANNEL_LAYERS = {
                 },
             },
         }
+# Redis
 CACHES = {
         'default': {
             'BACKEND': 'django_redis.cache.RedisCache',
@@ -172,7 +175,15 @@ CACHES = {
             },
         }
 
+# Celery will not work for celery version > 6.0
+BROKER_ULR = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+#CELERY_TIMEZONE = '' D
 
+#Email functionality 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # NOTE: FOR LOCAL DEV: Will send email to console (Default) TODO: Set up with gmail in production. 
 
 

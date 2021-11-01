@@ -2,7 +2,6 @@ version: '3.9'
 #NOTE: LOCAL DEV ENV ONLY!!!
 
 services:
-
   # Redis 
   redis:
     image: redis:alpine
@@ -13,18 +12,22 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environmenmt:
-      - POSTGRES_DB=postgres # CHANGE NAME IN SOURCE NEWS\
+      - POSTGRES_DB=postgres # CHANGE NAME IN SOURCE NEWS
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres 
     container_name: postgres_db   
 
   # Django Application
   app:
-    build: .
+    build: ./django
     volumes:
-      - .:/django
+      - ./django/:/usr/src/app/
     ports:
       - 8000:8000
+    environment: 
+      - DEBUG=1
+      - SECRET_KEY=django-insecure-o9&qvi9-!#bd1l!pckz&f!yd1#za5fc3=u)2rqerzf6(#)0v49
+      - DJANGO_ALLOWED_HOSTS=localhost 0.0.0.0 [::1]
     image: app:django
     container_name: django_app
     command: python manage.py runserver 0.0.0.0:8000
@@ -34,16 +37,27 @@ services:
   # Celery
   celery:
     restart: always
-    build:
-      context: .
-    command: celery -A core worker -l DEBUG
+    build: ./django
+    command: celery -A backend worker -l DEBUG
     volumes:
-      - .:/django
-    container_name: celery
+      - ./django/:/usr/src/app/
+    container_name: celery_worker
     depends_on:
       - db
       - redis
       - app
+  celery-beat:
+    build: ./django
+    command: celery -A backend beat -l INFO
+    volumes:
+      - ./django/:/usr/src/app/
+    container_name: celery_beat
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=django-insecure-o9&qvi9-!#bd1l!pckz&f!yd1#za5fc3=u)2rqerzf6(#)0v49
+      - DJANGO_ALLOWED_HOSTS=localhost 0.0.0.0 [::1]
+    depends_on:
+      - redis
 
  
  #TODO SEGMENT COMPOSE INTO DIFFERENT DIRS ORGANIZE WITH ENTRY POINTS \
