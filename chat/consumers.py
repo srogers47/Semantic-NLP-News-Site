@@ -45,7 +45,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await chat_save_message(
                 username=self.scope['user'].username.title(),
                 room_id=self.room_name,
-                message-message,
+                message=message,
                 message_type=message_type,
                 image_caption=image_caption
                 )

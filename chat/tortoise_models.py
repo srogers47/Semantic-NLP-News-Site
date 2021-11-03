@@ -6,7 +6,7 @@ class ChatMessage(Model):
     This Model will use Tortoise-ORM for async storage of chat messages.
     Seperate from models.py, solely for messages/chat history.
     """
-    id = fields.IntField(pd=True)
+    id = fields.IntField(pk=True)
     room_id = fields.IntField(null=True)
     username = fields.CharField(max_length=50, null=True)
     message = fields.TextField()

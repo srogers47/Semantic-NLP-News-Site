@@ -5,7 +5,7 @@ from django.contrib.auth.models import Group
 class ChatGroup(Group):
     """Extend Group model.  Similar to GroupChat"""
     description = models.TextField(blank=True, help_text="Describe the group.")
-    mute_notifications = models.BooleanField(defualt=False, help_text="Would you like to mute notifications?")
+    mute_notifications = models.BooleanField(default=False, help_text="Would you like to mute notifications?")
     icon = models.ImageField(help_text="Icon for Group", blank=True, upload_to="chatgroup_media")
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)

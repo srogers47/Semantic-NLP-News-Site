@@ -1,0 +1,180 @@
+{% extends base.html  %}
+{% block content  %}
+  <!-- Navigation --> 
+  <nav class="navbar navbar-defualt navbar-fixed-top">
+	<div class="container">
+	  <div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" arai-controls="navbar">
+		  <span class="sr-only">Toggle navigation</span> 
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#">SemanticNewsOrg</a> 
+	  </div> 
+	  <div id="navbar" class="collapse navbar-collapse">
+		<ul class="nav navbar-nav navbar-right">
+		  <li><a href="#showcase">Home</a></li>
+		  <li><a href="#news">News</a></li>
+		  <li><a href="#chat">Join the Discussion</a></li>
+		  <li><a href="#contact">Contact</a></li>
+		</ul>
+	  </div> 
+	</div>
+  </nav> 
+{# TODO: NEED Images for homepage.  Segment other sections of webpage into partials to include as links in homepage. #}
+  <!-- Homepage Showcase --> 
+  <section id="showcase">
+	<div class="container">
+	  <!-- This layout utilizes CSS Grid Bootstrap --> 
+	  <div class="row">
+		<div class="col-md-6 col-sm-6">
+		  <div class="showcase-left">
+			<img src=""> 
+		  </div> 
+		  <div class="showcase-right">
+			<h1>Get your spoon-fed news while it's hot!</h1> 
+			<p>Here at SemanticNewsOrg, we care about maximizing our return on advertising revenue. We provide news for all people!</p> 
+			<p>But we aren't singing a new song.  We're simply riding the wave.</p> 
+		  </div> 
+		  <br>
+		  <a class="btn btn-default btn-lg showcase-btn">Read More</a> 
+		</div> 
+	  </div> 
+	</div>
+  </section> 
+  <section id="testimonail"> 
+	<div class="container">
+	  <p>"This website is great.  I get all the self soothing information I need to prop up my one-sided opinions. The discord service they offer is very similar to whatsapp.  I can talk to likeminded people, and argue with everyone else!"</p> 
+	  <p class="customer">- Adam</p>
+	  <p>"What this website offers is horrible! But I can't stop myself from partaking in the discussions. I guess my narcisistic personality can't pass up the consequence free oportunity of short lived virtue."</p> 
+	  <p class="customer">- Karren</p>
+	</div> 
+  </section> 
+  <!-- News --> 
+  <section id="news"> 
+	<div class="container">
+	  <div class="row">
+		<div class="col-md-6 col-sm-6">
+		  <div class="news-left">
+			<h2>Get the News you want to see!</h2> 
+			<p>Using state of the art natural language processing, we semantically parse through articles to give you just what you're looking for.'</p> 
+		  </div> 
+		  <div class="news-right">
+			<h2>It's free.</h2> 
+			{# Button to news. TODO add url, '/news'  New page will check if account is created.  If not, user is prompted to register. #}
+			<button class="btn btn-default" href="/news">Get Started</button> 
+		  </div> 
+		</div> 
+	  </div> 
+	</div> 
+  </section> 
+  <!-- Chat -->
+  <section id="chat"> 
+	<div class="container">
+	  <div class="row">
+		<div class="col-md-6 col-sm-6">
+		  <div class="chat-left">
+			<img src=""> {# image of chat Needed #}
+		  </div> 
+		  <div class="chat-right"> 
+			<h1>Instant message capabilities with Django Channels' asyncronous websocket funtionality.</h1>
+			<h2>Create groups with friends, family, and total strangers.</h2> 
+			{# TODO /news route in urls.  Page will check if user is registered. If not, prompt with registration form. #}
+			<button class="btn btn-default" href="/chat">Try Today</button> 
+		  </div> 
+		</div>
+	  </div>
+	</div>
+  </section>
+  <!-- Contact -->
+  <section id="contact">
+	<div class="container">
+	  <div class="row">
+		<div class="col-md-5 col-sm-5">
+		  <form>
+			<div class="form-group">
+			  <label>Name: </label>
+			  <input class="form-control" type="text" name="" value="" placeholder="Enter Name">
+			</div> 
+			<div class="form-group">
+			  <label>Message</label>
+			  <textarea class="form-control" name="" value=""placeholder="Enter Message"></textarea>
+			</div> 
+			<button class="btn btn-default">Submit</button>
+		  </form> 
+		</div>
+		<div class="col-md-7 col-sm-7"> {# placeholder adlib something here  #}
+		</div> 
+	  </div> 
+  </section> 
+  <!-- Copyright trademark --> 
+  <footer> 
+	<p class="text-center">SemanticNewsOrg Copyright &copy; 2021</p> 
+  </footer> 
+
+  <!-- ScrollReveal js --> 
+  <script>
+	window.sr = ScrollReveal();
+	sr.reveal('.navbar', {
+	  duration: 2000,
+	  originL 'bottom'
+	});
+	sr.reveal('.showcase-left', {
+	  duration: 2000,
+	  origin: 'top',
+	  distance: '300px'
+	});
+	sr.reveal('.showcase-right', {
+	  duration: 2000,
+	  origin: 'right',
+	  distance: '300px'
+	});
+	sr.reveal('.showcase-btn', {
+	  duration: 2000,
+	  delay: 2000,
+	  origin: 'bottom'
+	});
+	sr.reveal('#testimonial div', {
+	  duration: 2000,
+	  origin: 'bottom'
+	});
+	sr.reveal('.news-left', {
+	  duration: 2000,
+	  origin: 'top',
+	  distance: '300px'
+	});
+	sr.reveal('.news-right', {
+	  duration: 2000,
+	  origin: 'right',
+	  distance: '300px'
+	});
+	sr.reveal('.chat-right',{
+	  duration: 2000,
+	  origin: 'top',
+	  distance: '300px'
+	});
+	sr.reveal('.chat-left', {
+	  duration: 2000,
+	  origin: 'top',
+	  distance: '300px'
+	});
+  </script> 
+  <!-- Smooth Scroll Animation --> 
+  <script>
+  $(funtion() {
+    $('a[href*="#"]:not([href="#"])').click(function() {
+      if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+        var target = $(this.hash);
+        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+        if (target.length) {
+          $('html, body').animate({
+            scrollTop: target.offset().top
+          }, 1000);
+          return false;
+        }
+      }
+    });
+  });
+  </script> 
+{% endblock content  %}

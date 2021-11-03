@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-o9&qvi9-!#bd1l!pckz&f!yd1#za5fc3=u)2rqerzf6(#)0v49
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*'] # NOTE Only suitable for local dev!
 
 
 # Application definition
@@ -62,7 +62,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'backend/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,11 +128,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'backend/static')]
+
+# MEDIA
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'backend/media')
 
 AUTH_USER_MODEL = 'users.ExtendUser' # Extending default user model
 
 # Graphql and Auth 
-
 GRAPHENE = {
         'SCHEMA': 'users.schema.schema', # Link to schema
         'MIDDLEWARE': [
@@ -160,7 +164,7 @@ CHANNEL_LAYERS = {
         'defualt': {
             'BACKEND': 'channels_redis.backend.RedisChannelLayer',
             'CONFIG': {
-               # 'hosts': [os.environ['REDIS_URL']], #TODO NEED TO ADD REDIS_URL IN CELERY/TASKS.py
+                "hosts": [('127.0.0.1', 6379)],
                 },
             },
         }
@@ -168,12 +172,21 @@ CHANNEL_LAYERS = {
 CACHES = {
         'default': {
             'BACKEND': 'django_redis.cache.RedisCache',
-            #'LOCATION': os.environ['REDIS_URL'],
+            'LOCATION': [('127.0.0.1', 6379)], 
             'OPTIONS': {
                 'CLIENT_CLASS': 'django_redis.client.DefaultClient'
                 },
             },
         }
+
+# Tortoise ORM
+TORTOISE_INIT = {
+        "db_url": "sqlite://db.sqlite3.tortoise", #TODO Change to postgres
+        "modules": {
+            "models": ["chat.tortoise_models"]
+            }
+        }
+
 
 # Celery will not work for celery version > 6.0
 BROKER_ULR = 'redis://localhost:6379'

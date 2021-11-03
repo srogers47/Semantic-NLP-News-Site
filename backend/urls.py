@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include 
+from django.conf import settings
+from django.conf.urls.static import static
 from django.views.decorators.csrf import csrf_exempt
 
 from graphene_django.views import GraphQLView
@@ -23,6 +25,8 @@ from graphene_django.views import GraphQLView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('chat/', include('chat.urls')),
+    path('users/')
+    path('chat/', include('chat.urls', namespace='chat')),
+    path('news/', include('news.urls', namespace='news')),
     path('graphql', csrf_exempt(GraphQLView.as_view(graphiql=True))), # Graphical user interface
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
