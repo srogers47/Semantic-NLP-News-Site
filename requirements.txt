@@ -29,7 +29,7 @@ cookiecutter==1.7.3
 cryptography==35.0.0
 cymem==2.0.5
 daphne==3.0.2
-Django==3.2.8
+Django==3.2.12
 django-filter==21.1
 django-graphql-auth==0.3.16
 django-graphql-jwt==0.3.0
